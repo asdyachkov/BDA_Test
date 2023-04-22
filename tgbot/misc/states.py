@@ -1,5 +1,7 @@
 from aiogram.dispatcher.filters.state import StatesGroup, State
 
+# Файл с машинами состояний для каждого из хендлеров
+
 
 class WeatherStates(StatesGroup):
     S1 = State()

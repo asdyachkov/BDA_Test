@@ -14,6 +14,12 @@ from tgbot.keyboards.callbacks.StartKeyboardsCallback import (
 
 
 async def bot_weather_start(call: CallbackQuery, state: FSMContext):
+    """
+    Отправка сообщения на получение города от пользователя
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     text = [
         "Введите город, в котором хотите узнать текущую погоду",
         "Принимаются только города, написанные английскими буквами!",
@@ -25,6 +31,12 @@ async def bot_weather_start(call: CallbackQuery, state: FSMContext):
 
 
 async def bot_weather_answer(message: types.Message, state: FSMContext):
+    """
+    Получение погоды от апи и отправка полученного значения пользователю
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     env = Env()
     env.read_env(".env")
     weather_data = json.loads(
@@ -45,7 +57,7 @@ async def bot_weather_answer(message: types.Message, state: FSMContext):
         await state.finish()
     else:
         text = [
-            "Не могу найти введенный Вами город",
+            "❗ Не могу найти введенный Вами город",
             "Поробуйте еще раз",
         ]
 
@@ -53,6 +65,11 @@ async def bot_weather_answer(message: types.Message, state: FSMContext):
 
 
 def register_weather(dp: Dispatcher):
+    """
+    Привязка обработчиков и хендлеров
+    :param dp: Диспатчер
+    :return: None
+    """
     dp.register_callback_query_handler(
         bot_weather_start, StartKeyboardsCallback.filter(choiсe="weather")
     )

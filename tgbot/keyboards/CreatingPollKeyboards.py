@@ -3,16 +3,17 @@ from tgbot.keyboards.callbacks.CreatingPollCallback import (
     CreatingPollCallback,
 )
 
+# Файл с клавиатурами для голосования
 
 is_poll_anonymous = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(
-                text="Да, анонимный",
+                text="Да, анонимный ✅",
                 callback_data=CreatingPollCallback.new(choiсe="True"),
             ),
             InlineKeyboardButton(
-                text="Нет, не анонимный",
+                text="Нет, не анонимный ❌",
                 callback_data=CreatingPollCallback.new(choiсe="False"),
             ),
         ],
@@ -36,10 +37,10 @@ is_allows_multiple_answers = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(
-                text="Да", callback_data=CreatingPollCallback.new(choiсe="yes")
+                text="Да ✅", callback_data=CreatingPollCallback.new(choiсe="yes")
             ),
             InlineKeyboardButton(
-                text="Нет", callback_data=CreatingPollCallback.new(choiсe="no")
+                text="Нет ❌", callback_data=CreatingPollCallback.new(choiсe="no")
             ),
         ],
     ]
@@ -47,6 +48,11 @@ is_allows_multiple_answers = InlineKeyboardMarkup(
 
 
 def correct_type(answers: list):
+    """
+    Создание динамической клавиатуры (исходя из имходных данных)
+    :param answers: ответы на голосование
+    :return: InlineKeyboardMarkup
+    """
     data = []
     for i, answer in enumerate(answers):
         data.append(

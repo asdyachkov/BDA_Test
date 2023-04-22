@@ -15,8 +15,14 @@ from tgbot.keyboards.callbacks.StartKeyboardsCallback import (
 
 
 async def bot_converter_from(call: CallbackQuery, state: FSMContext):
+    """
+    Отправка сообщения для получения валюты для конвертации
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     text = [
-        "Выберите из предложенных ниже варинатов валюту для конвертации",
+        "Выберите из предложенных ниже варинатов валюту для конвертации 🏛️",
     ]
 
     await call.message.edit_text("\n".join(text), reply_markup=choose_keyboard)
@@ -24,10 +30,16 @@ async def bot_converter_from(call: CallbackQuery, state: FSMContext):
 
 
 async def bot_connverter_to(call: CallbackQuery, state: FSMContext):
+    """
+    Получение валюты из которой будет проходить конвертация
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     await state.update_data(from_value=call.data.split(":")[1])
 
     text = [
-        "Выберите из предложенных ниже варинатов валюту в которую будем конвертировать",
+        "Выберите из предложенных ниже варинатов валюту в которую будем конвертировать 🏛️",
     ]
 
     await call.message.edit_text("\n".join(text), reply_markup=choose_keyboard)
@@ -35,10 +47,16 @@ async def bot_connverter_to(call: CallbackQuery, state: FSMContext):
 
 
 async def bot_connverter_value(call: CallbackQuery, state: FSMContext):
+    """
+    Получение валюты в которую будет проходить конвертация
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     await state.update_data(to_value=call.data.split(":")[1])
 
     text = [
-        "Введите сумму, которую хотите конвертировать",
+        "Введите сумму, которую хотите конвертировать 🏛️",
     ]
 
     await call.message.edit_text("\n".join(text))
@@ -46,6 +64,12 @@ async def bot_connverter_value(call: CallbackQuery, state: FSMContext):
 
 
 async def bot_connverter_convert(message: types.Message, state: FSMContext):
+    """
+    Конвертация полученных валют
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     env = Env()
     env.read_env(".env")
 
@@ -54,7 +78,7 @@ async def bot_connverter_convert(message: types.Message, state: FSMContext):
     if (
         sum_to_convert.replace(",", "", 1).isdigit()
         or sum_to_convert.replace(".", "", 1).isdigit()
-    ):
+    ): # Проверка, что введено целое или дробное число (неважно через запятую или точку)
         state_data = await state.get_data()
 
         convert_data = json.loads(
@@ -79,20 +103,25 @@ async def bot_connverter_convert(message: types.Message, state: FSMContext):
 
         else:
             text = [
-                "Введена неверная сумма",
+                "❗ Введена неверная сумма",
             ]
 
             await message.answer("\n".join(text))
 
     else:
         text = [
-            "Введена неверная сумма",
+            "❗ Введена неверная сумма",
         ]
 
         await message.answer("\n".join(text))
 
 
 def register_converter(dp: Dispatcher):
+    """
+    Привязка обработчиков и хендлеров
+    :param dp: Диспатчер
+    :return: None
+    """
     dp.register_callback_query_handler(
         bot_converter_from, StartKeyboardsCallback.filter(choiсe="converter")
     )

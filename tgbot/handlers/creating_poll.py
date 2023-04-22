@@ -2,17 +2,29 @@ from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 
+from keyboards.CreatingPollKeyboards import *
 from tgbot.keyboards.callbacks.StartKeyboardsCallback import StartKeyboardsCallback
 from tgbot.misc.states import CreatingPollStates
 
 
-def isdigit(s):
+def isdigit(s: str) -> bool:
+    """
+    Функция для проверки строки на то, является ли она отрицательным/положительным числом
+    :param s: Строка для проверки
+    :return: bool
+    """
     if s.startswith("-"):
         s = s[1:]
     return s.isdigit()
 
 
 async def bot_poll_chat_id(call: CallbackQuery, state: FSMContext):
+    """
+    Отправка сообщения для получения айди группы
+    :param call: колбек от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     text = [
         "Введите chat_id группы, в которую будет отправлено голосование",
         "Не забудте добавить бота в группу, чтобы он мог отправлять сообщения",
@@ -23,6 +35,12 @@ async def bot_poll_chat_id(call: CallbackQuery, state: FSMContext):
 
 
 async def bot_poll_question(message: types.Message, state: FSMContext):
+    """
+    Получение значения айди группы для отправки голосования
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     if isdigit(message.text):
         await state.update_data(chat_id=message.text)
         text = [
@@ -32,7 +50,7 @@ async def bot_poll_question(message: types.Message, state: FSMContext):
         await state.set_state(CreatingPollStates.S2)
     else:
         text = [
-            "Введенный chat_id неверен",
+            "❗ Введенный chat_id неверен",
             "Он должен состоять только из цифр",
             "Например, 123456",
             "Попробуйте еще раз",
@@ -41,6 +59,12 @@ async def bot_poll_question(message: types.Message, state: FSMContext):
 
 
 async def bot_poll_answers(message: types.Message, state: FSMContext):
+    """
+    Получение вопроса для голосования
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     if 10 <= len(message.text) < 300:
         await state.update_data(question=message.text)
         text = [
@@ -53,7 +77,7 @@ async def bot_poll_answers(message: types.Message, state: FSMContext):
         await state.set_state(CreatingPollStates.S3)
     else:
         text = [
-            "Введенный вопрос неверен",
+            "❗ Введенный вопрос неверен",
             "Он должен быть длиннее 10 символов, но короче 300 с учетом пробелов и знаков припинания",
             "Попробуйте еще раз",
         ]
@@ -61,6 +85,12 @@ async def bot_poll_answers(message: types.Message, state: FSMContext):
 
 
 async def bot_poll_is_anonymous(message: types.Message, state: FSMContext):
+    """
+    Получение ответов для голосования
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     answers = [answer for answer in message.text.split(",") if len(str(answer)) >= 1]
     if 1 < len(answers) <= 10:
         await state.update_data(answers=answers)
@@ -72,7 +102,7 @@ async def bot_poll_is_anonymous(message: types.Message, state: FSMContext):
         await state.set_state(CreatingPollStates.S4)
     else:
         text = [
-            "Введенные варианты ответов не удовлетворяют указанным условиям",
+            "❗ Введенные варианты ответов не удовлетворяют указанным условиям",
             "Через запятую перечислите варианты ответа на голосование",
             "Например: Весна, 123, Да",
             "Минимум 2 варианта ответа от 1 до 100 символов каждый",
@@ -82,6 +112,12 @@ async def bot_poll_is_anonymous(message: types.Message, state: FSMContext):
 
 
 async def bot_poll_open_period(call: CallbackQuery, state: FSMContext):
+    """
+    Получение значения анонимно ли голосование
+    :param call: колбек от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     await state.update_data(is_anonymous=call.data.split(":")[1])
     text = [
         "Введите время в секундных сколько будет доступно голосование",
@@ -92,6 +128,12 @@ async def bot_poll_open_period(call: CallbackQuery, state: FSMContext):
 
 
 async def bot_poll_type(message: types.Message, state: FSMContext):
+    """
+    Получение длительности голосования
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     open_period = message.text
     if open_period.strip().isdigit():
         open_period = int(open_period.strip())
@@ -106,7 +148,7 @@ async def bot_poll_type(message: types.Message, state: FSMContext):
             await state.set_state(CreatingPollStates.S6)
         else:
             text = [
-                "Введено неверное число",
+                "❗ Введено неверное число",
                 "Введите целое число от 5 до 600 - количество секунд",
             ]
             await message.answer("\n".join(text))
@@ -121,8 +163,15 @@ async def bot_poll_type(message: types.Message, state: FSMContext):
 async def bot_poll_correct_type_or_allows_multiple_answers(
     call: CallbackQuery, state: FSMContext
 ):
+    """
+    Получение типа голосования
+    :param call: колбек от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     type_ = call.data.split(":")[1]
     await state.update_data(type=type_)
+    # В зависимости от типа голосования, нужны разные переменные от пользователя
     if type_ == "quiz":
         data = await state.get_data()
         text = [
@@ -143,6 +192,12 @@ async def bot_poll_correct_type_or_allows_multiple_answers(
 
 
 async def bot_poll_explanation(call: CallbackQuery, state: FSMContext):
+    """
+    Получение правильного ответа (только для типа голосования quiz)
+    :param call: колбек от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     await state.update_data(correct_option_id=call.data.split(":")[1])
     text = [
         "Введите текстовое пояснение, которое будет появляться при выборе неправильного варанта ответа",
@@ -153,6 +208,12 @@ async def bot_poll_explanation(call: CallbackQuery, state: FSMContext):
 
 
 async def get_explanation(message: types.Message, state: FSMContext):
+    """
+    Получение объяснения при выборе неправильного ответа (только для типа голосования quiz)
+    :param message: сообщение от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     explanation = message.text
     if len(explanation) < 200:
         await state.update_data(explanation=explanation)
@@ -173,14 +234,14 @@ async def get_explanation(message: types.Message, state: FSMContext):
             ]
         except Exception as e:
             text = [
-                f"Голосование не отправлено по указанному id",
+                f"❗ Голосование не отправлено по указанному id",
                 f"Возникла ошибка: {e}",
             ]
         await message.answer("\n".join(text))
         await state.finish()
     else:
         text = [
-            "Введенное сообщение не удовлетворяет условиям",
+            "❗ Введенное сообщение не удовлетворяет условиям",
             "Попробуйте еще раз",
             "Максимальная длина сообщения - 200 символов",
         ]
@@ -188,6 +249,12 @@ async def get_explanation(message: types.Message, state: FSMContext):
 
 
 async def get_allows_multiple_answers(call: CallbackQuery, state: FSMContext):
+    """
+    Получение значения разрешены ли несколько ответов (только для типа голосования regular)
+    :param call: колбек от пользователя
+    :param state: текущее состояние
+    :return:
+    """
     await state.update_data(allows_multiple_answers=call.data.split(":")[1])
     try:
         try:
@@ -206,19 +273,24 @@ async def get_allows_multiple_answers(call: CallbackQuery, state: FSMContext):
             ]
         except Exception as e:
             text = [
-                f"Голосование не отправлено по указанному id",
+                f"❗ Голосование не отправлено по указанному id",
                 f"Возникла ошибка: {e}",
             ]
         await call.message.answer("\n".join(text))
         await state.finish()
     except Exception as e:
         text = [
-            f"Возникла ошибка: {e}",
+            f"❗ Возникла ошибка: {e}",
         ]
         await call.message.answer("\n".join(text))
 
 
 def register_creating_poll(dp: Dispatcher):
+    """
+    Привязка обработчиков и хендлеров
+    :param dp: Диспатчер
+    :return: None
+    """
     dp.register_callback_query_handler(
         bot_poll_chat_id, StartKeyboardsCallback.filter(choiсe="create_poll")
     )

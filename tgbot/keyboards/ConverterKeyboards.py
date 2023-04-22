@@ -3,6 +3,7 @@ from tgbot.keyboards.callbacks.ConverterKeyboardsCallback import (
     ConverterKeyboardsCallback,
 )
 
+# Файл с клавиатурами для конвертера
 
 choose_keyboard = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -21,12 +22,6 @@ choose_keyboard = InlineKeyboardMarkup(
             InlineKeyboardButton(
                 text="CNY", callback_data=ConverterKeyboardsCallback.new(choiсe="CNY")
             ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="Выход",
-                callback_data=ConverterKeyboardsCallback.new(choiсe="back"),
-            )
         ],
     ]
 )

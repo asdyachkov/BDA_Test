@@ -10,6 +10,14 @@ async def convert(
     amount: float = 100,
     api_layer_token: str = None,
 ) -> json:
+    """
+    Асинхронный конвертер
+    :param to_value: во что конвертация
+    :param from_value: из чего конвертация
+    :param amount: сумма конвертации
+    :param api_layer_token: токен для апи
+    :return: json
+    """
     try:
         async with ClientSession() as session:
             headers = {"apikey": api_layer_token}

@@ -11,10 +11,16 @@ code_to_smile = {
     "Thunderstorm": "Гроза \U000026A1",
     "Snow": "Снег \U0001F328",
     "Mist": "Туман \U0001F32B",
-}
+} # От парсера приходят значения, которые можно преобразовать в эмодзи
 
 
 async def get_weather(city: str, open_weather_token: str) -> json:
+    """
+    Асинхронный парсер погоды
+    :param city: город для парсинга
+    :param open_weather_token: токен для апи
+    :return: json
+    """
     try:
         async with ClientSession() as session:
             async with session.get(

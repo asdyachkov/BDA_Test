@@ -5,6 +5,10 @@ from aiohttp import ClientSession
 
 
 async def cat_photo() -> json:
+    """
+    Асинхронный парсер котиков
+    :return: json
+    """
     try:
         async with ClientSession() as session:
             async with session.get(

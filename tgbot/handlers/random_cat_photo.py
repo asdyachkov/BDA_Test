@@ -14,6 +14,11 @@ from tgbot.keyboards.RandomCatKeyboards import cat_keyboard
 
 
 async def cat_photo_send(call: CallbackQuery):
+    """
+    Получение рандомного изображения от апи и отправка пользователю
+    :param call: событие
+    :return: None
+    """
     cat_photo_data = json.loads(await cat_photo())
 
     if "error" not in cat_photo_data.keys():
@@ -25,12 +30,17 @@ async def cat_photo_send(call: CallbackQuery):
             reply_markup=cat_keyboard,
         )
     else:
-        text = ["На стороне API возникла ошибка, котиков пока нет("]
+        text = ["❗ На стороне API возникла ошибка, котиков пока нет("]
 
         await call.message.answer("\n".join(text))
 
 
 def register_cat_photo(dp: Dispatcher):
+    """
+    Привязка обработчиков и хендлеров
+    :param dp: Диспатчер
+    :return: None
+    """
     dp.register_callback_query_handler(
         cat_photo_send, StartKeyboardsCallback.filter(choiсe="cat_photo")
     )
