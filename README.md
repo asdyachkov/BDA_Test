@@ -26,7 +26,7 @@
         Контейнер выложен на dockerhub: https://hub.docker.com/repository/docker/asdyachkov/bda_test
     </li>
     <li>
-        Для запуска бота можно как запустить файл bot.py (установив requirements), так и docker контейнер
+        Для запуска бота можно как запустить файл bot.py (установив requirements), так и используя docker / docker-compose
     </li>
     <li>
         Проект полностью асинхронный. От aiogram до работы с api через aiohttp
