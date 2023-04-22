@@ -6,9 +6,9 @@ from aiogram.types import CallbackQuery
 from environs import Env
 
 from services.open_weather_parser import get_weather
-from tgbot_template.tgbot.misc.states import WeatherStates
+from misc.states import WeatherStates
 
-from tgbot_template.tgbot.keyboards.callbacks.StartKeyboardsCallback import (
+from keyboards.callbacks.StartKeyboardsCallback import (
     StartKeyboardsCallback,
 )
 

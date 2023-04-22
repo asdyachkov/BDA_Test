@@ -3,8 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 
 from keyboards.callbacks.StartKeyboardsCallback import StartKeyboardsCallback
-from tgbot_template.tgbot.misc.states import CreatingPollStates
-from tgbot_template.tgbot.keyboards.CreatingPollKeyboards import *
+from misc.states import CreatingPollStates
 
 
 def isdigit(s):

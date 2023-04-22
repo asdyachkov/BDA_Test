@@ -6,10 +6,10 @@ from aiogram.types import CallbackQuery
 from environs import Env
 
 from services.converter_parser import convert
-from tgbot_template.tgbot.misc.states import ConverterStates
-from tgbot_template.tgbot.keyboards.ConverterKeyboards import choose_keyboard
+from misc.states import ConverterStates
+from keyboards.ConverterKeyboards import choose_keyboard
 
-from tgbot_template.tgbot.keyboards.callbacks.StartKeyboardsCallback import (
+from keyboards.callbacks.StartKeyboardsCallback import (
     StartKeyboardsCallback,
 )
 

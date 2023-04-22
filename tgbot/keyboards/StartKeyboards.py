@@ -1,5 +1,5 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from tgbot_template.tgbot.keyboards.callbacks.StartKeyboardsCallback import (
+from keyboards.callbacks.StartKeyboardsCallback import (
     StartKeyboardsCallback,
 )
 
