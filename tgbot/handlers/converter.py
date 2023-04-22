@@ -78,7 +78,7 @@ async def bot_connverter_convert(message: types.Message, state: FSMContext):
     if (
         sum_to_convert.replace(",", "", 1).isdigit()
         or sum_to_convert.replace(".", "", 1).isdigit()
-    ): # Проверка, что введено целое или дробное число (неважно через запятую или точку)
+    ):  # Проверка, что введено целое или дробное число (неважно через запятую или точку)
         state_data = await state.get_data()
 
         convert_data = json.loads(
