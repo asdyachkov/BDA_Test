@@ -1,0 +1,5 @@
+aiogram~=2.18
+aioredis<2.0
+environs~=9.0
+asyncio==3.4.3
+aiohttp==3.8.4
