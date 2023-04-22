@@ -1,5 +1,5 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from keyboards.callbacks.CreatingPollCallback import (
+from tgbot.keyboards.callbacks.CreatingPollCallback import (
     CreatingPollCallback,
 )
 

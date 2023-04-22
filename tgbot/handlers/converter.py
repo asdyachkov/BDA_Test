@@ -5,11 +5,11 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 from environs import Env
 
-from services.converter_parser import convert
-from misc.states import ConverterStates
-from keyboards.ConverterKeyboards import choose_keyboard
+from tgbot.services.converter_parser import convert
+from tgbot.misc.states import ConverterStates
+from tgbot.keyboards.ConverterKeyboards import choose_keyboard
 
-from keyboards.callbacks.StartKeyboardsCallback import (
+from tgbot.keyboards.callbacks.StartKeyboardsCallback import (
     StartKeyboardsCallback,
 )
 

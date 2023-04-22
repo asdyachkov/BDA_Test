@@ -1,7 +1,7 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 
-from keyboards.StartKeyboards import start_keyboard
+from tgbot.keyboards.StartKeyboards import start_keyboard
 
 
 async def bot_start(message: types.Message, state: FSMContext):

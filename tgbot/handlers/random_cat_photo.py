@@ -3,14 +3,14 @@ import json
 from aiogram import Dispatcher
 from aiogram.types import CallbackQuery
 
-from keyboards.callbacks.StartKeyboardsCallback import (
+from tgbot.keyboards.callbacks.StartKeyboardsCallback import (
     StartKeyboardsCallback,
 )
-from keyboards.callbacks.RandomCatKeyboardsCallback import (
+from tgbot.keyboards.callbacks.RandomCatKeyboardsCallback import (
     RandomCatKeyboardsCallback,
 )
-from services.cat_photo_parser import cat_photo
-from keyboards.RandomCatKeyboards import cat_keyboard
+from tgbot.services.cat_photo_parser import cat_photo
+from tgbot.keyboards.RandomCatKeyboards import cat_keyboard
 
 
 async def cat_photo_send(call: CallbackQuery):

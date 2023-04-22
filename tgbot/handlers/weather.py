@@ -5,10 +5,10 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 from environs import Env
 
-from services.open_weather_parser import get_weather
-from misc.states import WeatherStates
+from tgbot.services.open_weather_parser import get_weather
+from tgbot.misc.states import WeatherStates
 
-from keyboards.callbacks.StartKeyboardsCallback import (
+from tgbot.keyboards.callbacks.StartKeyboardsCallback import (
     StartKeyboardsCallback,
 )
 
